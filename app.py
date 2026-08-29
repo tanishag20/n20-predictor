@@ -1,9 +1,17 @@
 import streamlit as st
 import numpy as np
 import joblib
+import os
+import urllib.request
 
-# Load model
-model = joblib.load("rf_model.pkl")
+MODEL_URL = "https://github.com/tanishag20/n20-predictor/releases/download/v1/rf_model.pkl"
+MODEL_PATH = "rf_model.pkl"
+
+if not os.path.exists(MODEL_PATH):
+    with st.spinner("Downloading model (first run only)..."):
+        urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+
+model = joblib.load(MODEL_PATH)
 scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 
